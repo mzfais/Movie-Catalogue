@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:layout_width="match_parent"
+        android:gravity="start"
+        android:title="@string/action_notification"
+        app:iconSpaceReserved="false">
+        <SwitchPreference
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:gravity="fill"
+            android:key="@string/key_daily_reminder"
+            android:summary="@string/daily_reminder_summary"
+            android:title="@string/daily_reminder_title"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:defaultValue="false"
+            android:gravity="fill"
+            android:key="@string/key_upcoming_reminder"
+            android:summary="@string/upcoming_reminder_summary"
+            android:title="@string/upcoming_reminder_title"
+            app:iconSpaceReserved="false" />
+
+        PreferenceCategory android:title="@string/action_setting">
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:gravity="fill"
+        android:title="@string/action_setting_language"
+        app:iconSpaceReserved="false">
+        <Preference
+            android:gravity="fill"
+            android:key="@string/key_setting_locale"
+            android:summary="@string/label_setting_locale_summary"
+            android:title="@string/label_setting_locale_title"
+            app:iconSpaceReserved="false" />
+    </PreferenceCategory>
+</PreferenceScreen>
