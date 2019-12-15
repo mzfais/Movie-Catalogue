@@ -36,5 +36,8 @@
     <string name="failed_msg">Terjadi kesalahan pada sistem</string>
     <string name="eol_msg">Anda sudah di akhir data</string>
     <string name="label_release_reminder">Hari ini %s rilis, saksikan di Bioskop kesayangan Anda</string>
+    <string name="tv_fav_label">Favorit</string>
+    <string name="msg_add_to_fav">Film telah ditambahkan ke daftar favorit Anda</string>
+    <string name="msg_del_from_fav">Film telah dihapus dari daftar favorit Anda</string>
 
 </resources>

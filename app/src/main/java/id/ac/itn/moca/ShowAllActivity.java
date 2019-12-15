@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import id.ac.itn.moca.adapter.NowPlayingAdapter;
+import id.ac.itn.moca.fragment.FavouriteFragment;
 import id.ac.itn.moca.fragment.NowPlayingFragment;
 import id.ac.itn.moca.fragment.TvShowFragment;
 import id.ac.itn.moca.fragment.UpcomingFragment;
@@ -53,9 +54,11 @@ public class ShowAllActivity extends AppCompatActivity {
             } else if (page.equals("up")) {
                 //loadFragment(new UpcomingFragment(), page);
                 updateNavigationBarState(R.id.bottom_nav_upcoming);
-            } else {
+            } else if(page.equals("tv")){
                 //loadFragment(new TvShowFragment(), page);
                 updateNavigationBarState(R.id.bottom_nav_tvs);
+            }else{
+                updateNavigationBarState(R.id.bottom_nav_fav);
             }
         } else {
 /*
@@ -69,9 +72,12 @@ public class ShowAllActivity extends AppCompatActivity {
             } else if (savedInstanceState.getString(APP_STATUS).equals("up")) {
                 loadFragment(new UpcomingFragment(), "up");
                 Log.d(TAG, "onCreate: upcoming aktif");
-            } else {
+            } else if (savedInstanceState.getString(APP_STATUS).equals("tv")){
                 loadFragment(new TvShowFragment(), "tv");
                 Log.d(TAG, "onCreate: tvshow aktif");
+            }else{
+                loadFragment(new FavouriteFragment(), "fav");
+                Log.d(TAG, "onCreate: favorit aktif");
             }
         }
     }
@@ -107,6 +113,11 @@ public class ShowAllActivity extends AppCompatActivity {
                             tvfirstLoad = false;
                             tag = "tv";
                             break;
+                        case R.id.bottom_nav_fav:
+                            fragment = new FavouriteFragment();
+                            tag="fav";
+                            break;
+
                     }
                     //active = fragment;
                     return loadFragment(fragment, tag);

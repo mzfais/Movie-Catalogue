@@ -35,5 +35,8 @@
     <string name="failed_msg">Something went wrong</string>
     <string name="eol_msg">You have reached the end</string>
     <string name="label_release_reminder">Today %s is release, watch it on your favorites Cinema</string>
+    <string name="tv_fav_label">Favourite</string>
+    <string name="msg_add_to_fav">Movie has been added to your favourite list</string>
+    <string name="msg_del_from_fav">Movie has been deleted from your favourite list</string>
 
 </resources>

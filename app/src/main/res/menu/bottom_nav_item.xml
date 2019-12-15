@@ -16,4 +16,9 @@
         android:icon="@drawable/ic_live_tv"
         android:title="@string/tv_shows_label"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/bottom_nav_fav"
+        android:icon="@drawable/ic_favorite_border"
+        android:title="@string/tv_fav_label"
+        app:showAsAction="always" />
 </menu>

@@ -21,4 +21,7 @@ public interface FavouriteDao {
 
     @Query("SELECT * FROM movie_favourite ORDER BY id DESC")
     LiveData<List<Favourite>> getAllFavourite();
+
+    @Query("SELECT * FROM movie_favourite WHERE MovieId = :mov_id")
+    LiveData<Favourite> getItemFavourite(int mov_id);
 }

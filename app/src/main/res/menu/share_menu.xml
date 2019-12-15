@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/mn_fav"
+        android:icon="@drawable/ic_favorite_border"
+        app:showAsAction="always"
+        android:checkable="true"
+        android:title="@string/tv_fav_label" />
+    <item
         android:id="@+id/mn_share"
         android:icon="@drawable/ic_share_white"
         app:showAsAction="always"

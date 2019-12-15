@@ -21,6 +21,9 @@ public class Favourite {
     private String overview;
     private String releaseDate;
 
+    public Favourite() {
+    }
+
     public Favourite(int movieId, boolean video, String posterPath, boolean adult, String backdropPath, String originalLanguage, String originalTitle, String title, Double voteAverage, int voteCount, String overview, String releaseDate) {
         MovieId = movieId;
         this.video = video;
@@ -38,6 +41,54 @@ public class Favourite {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setMovieId(int movieId) {
+        MovieId = movieId;
+    }
+
+    public void setVideo(boolean video) {
+        this.video = video;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
+    }
+
+    public void setBackdropPath(String backdropPath) {
+        this.backdropPath = backdropPath;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setVoteAverage(Double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public int getId() {
@@ -91,4 +142,5 @@ public class Favourite {
     public String getReleaseDate() {
         return releaseDate;
     }
+
 }

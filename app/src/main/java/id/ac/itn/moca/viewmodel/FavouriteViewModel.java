@@ -14,6 +14,7 @@ import id.ac.itn.moca.model.Favourite;
 public class FavouriteViewModel extends AndroidViewModel {
     private FavouriteRepository repository;
     private LiveData<List<Favourite>> allFavs;
+    private LiveData<Favourite> favItem;
 
     public FavouriteViewModel(@NonNull Application application) {
         super(application);
@@ -32,4 +33,9 @@ public class FavouriteViewModel extends AndroidViewModel {
     public LiveData<List<Favourite>> getAllFavourites(){
         return allFavs;
     }
+
+    public LiveData<Favourite> getFavItem(int mov_id){
+        return repository.getItemFavourite(mov_id);
+    }
+
 }
