@@ -21,6 +21,7 @@ import com.firebase.jobdispatcher.RetryStrategy;
 import com.firebase.jobdispatcher.Trigger;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import id.ac.itn.moca.R;
@@ -28,8 +29,6 @@ import id.ac.itn.moca.service.AlarmReceiver;
 import id.ac.itn.moca.service.UpcomingJobService;
 
 public class AppSetting extends AppCompatActivity {
-    public static final String
-            REMINDER_UPCOMING = "reminder_upcoming";
     Toolbar toolbar;
 
     @Override
@@ -38,7 +37,7 @@ public class AppSetting extends AppCompatActivity {
         setContentView(R.layout.appsetting);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getResources().getString(R.string.action_setting));
+        Objects.requireNonNull(getSupportActionBar()).setTitle(getResources().getString(R.string.action_setting));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -67,10 +66,10 @@ public class AppSetting extends AppCompatActivity {
             reminder_upcoming = this.getResources().getString(R.string.key_upcoming_reminder);
             daily_reminder = this.getResources().getString(R.string.key_daily_reminder);
             setting_locale = this.getResources().getString(R.string.key_setting_locale);
-            findPreference(reminder_upcoming).setOnPreferenceChangeListener(this);
-            findPreference(daily_reminder).setOnPreferenceChangeListener(this);
-            findPreference(setting_locale).setOnPreferenceClickListener(this);
-            dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(getActivity()));
+            Objects.requireNonNull(findPreference(reminder_upcoming)).setOnPreferenceChangeListener(this);
+            Objects.requireNonNull(findPreference(daily_reminder)).setOnPreferenceChangeListener(this);
+            Objects.requireNonNull(findPreference(setting_locale)).setOnPreferenceClickListener(this);
+            dispatcher = new FirebaseJobDispatcher(new GooglePlayDriver(Objects.requireNonNull(getActivity())));
         }
 
         @Override
@@ -79,9 +78,9 @@ public class AppSetting extends AppCompatActivity {
             boolean isOn = (boolean) newValue;
             if (key.equals(daily_reminder)) {
                 if (isOn) {
-                    alarmReceiver.setRepeatingAlarm(getActivity(), alarmReceiver.TYPE_REPEATING, "16:01", getResources().getString(R.string.label_alarm_daily_reminder));
+                    alarmReceiver.setRepeatingAlarm(Objects.requireNonNull(getActivity()), AlarmReceiver.TYPE_REPEATING, "07:00", getResources().getString(R.string.label_alarm_daily_reminder));
                 } else {
-                    alarmReceiver.cancelAlarm(getActivity(), alarmReceiver.TYPE_REPEATING);
+                    alarmReceiver.cancelAlarm(Objects.requireNonNull(getActivity()), AlarmReceiver.TYPE_REPEATING);
                 }
                 return true;
             }
@@ -110,8 +109,8 @@ public class AppSetting extends AppCompatActivity {
         }
 
         private void startUpcomingJob() {
-            int minutesToStart = 21;
-            int hoursToStart = 16;
+            int minutesToStart = 59;
+            int hoursToStart = 7;
             Calendar calendar = Calendar.getInstance();
             int minute = calendar.get(Calendar.MINUTE);
             long startM = TimeUnit.MINUTES.toSeconds(minutesToStart - minute);//TimeUnit.MINUTES.toMillis(minutesToStart - minute); // 40 in the example
@@ -145,7 +144,7 @@ public class AppSetting extends AppCompatActivity {
             dispatcher.mustSchedule(synJob);
         }
 
-        public static String convertSecondsToHMmSs(long seconds) {
+        private String convertSecondsToHMmSs(long seconds) {
             long s = seconds % 60;
             long m = (seconds / 60) % 60;
             long h = (seconds / (60 * 60)) % 24;
