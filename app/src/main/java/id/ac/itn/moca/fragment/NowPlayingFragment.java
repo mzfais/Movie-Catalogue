@@ -2,32 +2,25 @@ package id.ac.itn.moca.fragment;
 
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ProgressBar;
-
-import java.util.List;
-
 import id.ac.itn.moca.R;
-import id.ac.itn.moca.adapter.MovieAdapter;
 import id.ac.itn.moca.adapter.MoviePagedAdapter;
-import id.ac.itn.moca.adapter.NowPlayingAdapter;
 import id.ac.itn.moca.model.Movie;
 import id.ac.itn.moca.model.NetworkState;
-import id.ac.itn.moca.viewmodel.MovieViewModel;
 import id.ac.itn.moca.viewmodel.NowPlayingViewModel;
 
 /**
@@ -36,7 +29,6 @@ import id.ac.itn.moca.viewmodel.NowPlayingViewModel;
 public class NowPlayingFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "NowPlayingFragment";
     public static final String FIRST_LOAD = "false";
-    private RecyclerView rvMovie;
     private MoviePagedAdapter adapter;
     private NowPlayingViewModel viewModel;
     SwipeRefreshLayout srl;
@@ -57,7 +49,7 @@ public class NowPlayingFragment extends Fragment implements SwipeRefreshLayout.O
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d(TAG, "onViewCreated: definisi komponen view ");
-        rvMovie = view.findViewById(R.id.rvMovieList);
+        RecyclerView rvMovie = view.findViewById(R.id.rvMovieList);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -94,8 +86,8 @@ public class NowPlayingFragment extends Fragment implements SwipeRefreshLayout.O
             //progressBar.setVisibility(View.GONE);
             Log.d(TAG, "load_data: not firstload");
         }
-        viewModel = ViewModelProviders.of(getActivity()).get(NowPlayingViewModel.class);
-        viewModel.nowPlayingPagedList.observe(getActivity(), new Observer<PagedList<Movie>>() {
+        viewModel = new ViewModelProvider(requireActivity()).get(NowPlayingViewModel.class);
+        viewModel.nowPlayingPagedList.observe(getViewLifecycleOwner(), new Observer<PagedList<Movie>>() {
             @Override
             public void onChanged(PagedList<Movie> movies) {
                 if (movies != null) {
@@ -104,7 +96,7 @@ public class NowPlayingFragment extends Fragment implements SwipeRefreshLayout.O
                 }
             }
         });
-        viewModel.getNetworkStateLiveData().observe(getActivity(), new Observer<NetworkState>() {
+        viewModel.getNetworkStateLiveData().observe(getViewLifecycleOwner(), new Observer<NetworkState>() {
             @Override
             public void onChanged(NetworkState networkState) {
                 adapter.setNetworkState(networkState);

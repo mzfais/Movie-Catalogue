@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
 
+import org.jetbrains.annotations.NotNull;
+
 import id.ac.itn.moca.BuildConfig;
 import id.ac.itn.moca.api.ApiClient;
 import id.ac.itn.moca.model.Movie;
@@ -28,15 +30,16 @@ public class NowPlayingDs extends PageKeyedDataSource<Integer, Movie> {
         ApiClient.getInstance().getApi().getNowPlayingList(BuildConfig.MovieAPIKey, "en-US", FIRST_PAGE)
                 .enqueue(new Callback<MovieList>() {
                     @Override
-                    public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+                    public void onResponse(@NotNull Call<MovieList> call, @NotNull Response<MovieList> response) {
                         if (response.isSuccessful()) {
+                            assert response.body() != null;
                             callback.onResult(response.body().getResults(), null, FIRST_PAGE + 1);
                             networkState.postValue(NetworkState.LOADED);
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<MovieList> call, Throwable t) {
+                    public void onFailure(@NotNull Call<MovieList> call, @NotNull Throwable t) {
                         networkState.postValue(NetworkState.FAIL);
                         Log.d(TAG, "onFailure: loadinitial " + t.getMessage());
                     }
@@ -49,9 +52,10 @@ public class NowPlayingDs extends PageKeyedDataSource<Integer, Movie> {
         ApiClient.getInstance().getApi().getNowPlayingList(BuildConfig.MovieAPIKey, "en-US", params.key)
                 .enqueue(new Callback<MovieList>() {
                     @Override
-                    public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+                    public void onResponse(@NotNull Call<MovieList> call, @NotNull Response<MovieList> response) {
                         if (response.isSuccessful()) {
                             Integer key = (params.key > 1) ? params.key - 1 : null;
+                            assert response.body() != null;
                             callback.onResult(response.body().getResults(), key);
                             networkState.postValue(NetworkState.LOADED);
                             Log.d(TAG, "onResponse: loadBefore " + key);
@@ -59,7 +63,7 @@ public class NowPlayingDs extends PageKeyedDataSource<Integer, Movie> {
                     }
 
                     @Override
-                    public void onFailure(Call<MovieList> call, Throwable t) {
+                    public void onFailure(@NotNull Call<MovieList> call, @NotNull Throwable t) {
                         Log.d(TAG, "onFailure: loadbefore " + t.getMessage());
                         networkState.postValue(NetworkState.FAIL);
                     }
@@ -72,8 +76,9 @@ public class NowPlayingDs extends PageKeyedDataSource<Integer, Movie> {
         ApiClient.getInstance().getApi().getNowPlayingList(BuildConfig.MovieAPIKey, "en-US", params.key)
                 .enqueue(new Callback<MovieList>() {
                     @Override
-                    public void onResponse(Call<MovieList> call, Response<MovieList> response) {
+                    public void onResponse(@NotNull Call<MovieList> call, @NotNull Response<MovieList> response) {
                         if (response.isSuccessful()) {
+                            assert response.body() != null;
                             if (response.body().getTotalPages() >= params.key) {
                                 networkState.postValue(NetworkState.LOADED);
                                 callback.onResult(response.body().getResults(), params.key + 1);
@@ -85,7 +90,7 @@ public class NowPlayingDs extends PageKeyedDataSource<Integer, Movie> {
                     }
 
                     @Override
-                    public void onFailure(Call<MovieList> call, Throwable t) {
+                    public void onFailure(@NotNull Call<MovieList> call, @NotNull Throwable t) {
                         networkState.postValue(NetworkState.FAIL);
                         Log.d(TAG, "onFailure: loadafter " + t.getMessage());
                     }

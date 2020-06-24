@@ -19,10 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
-
 import id.ac.itn.moca.BuildConfig;
 import id.ac.itn.moca.DetailActivity;
 import id.ac.itn.moca.R;
@@ -73,6 +69,7 @@ public class MoviePagedAdapter extends PagedListAdapter<Movie, RecyclerView.View
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder movieViewHolder = (ItemViewHolder) holder;
             Movie mov = getItem(position);
+            assert mov != null;
             movieViewHolder.bind(mov);
         } else {
             NetworkStateItemViewHolder networkStateItemViewHolder = (NetworkStateItemViewHolder) holder;

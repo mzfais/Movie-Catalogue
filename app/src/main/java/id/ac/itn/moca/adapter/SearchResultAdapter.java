@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.util.Objects;
+
 import id.ac.itn.moca.BuildConfig;
 import id.ac.itn.moca.DetailActivity;
 import id.ac.itn.moca.R;
@@ -71,6 +73,7 @@ public class SearchResultAdapter extends PagedListAdapter<Movie, RecyclerView.Vi
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder movieViewHolder = (ItemViewHolder) holder;
             Movie mov = getItem(position);
+            assert mov != null;
             movieViewHolder.bind(mov);
         } else {
             NetworkStateItemViewHolder networkStateItemViewHolder = (NetworkStateItemViewHolder) holder;
@@ -115,7 +118,7 @@ public class SearchResultAdapter extends PagedListAdapter<Movie, RecyclerView.Vi
 
     public void clear() {
         if (getItemCount() > 0) {
-            getCurrentList().clear();
+            Objects.requireNonNull(getCurrentList()).clear();
             notifyDataSetChanged();
         }
     }

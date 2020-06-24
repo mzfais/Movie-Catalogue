@@ -1,7 +1,5 @@
 package id.ac.itn.moca.model;
 
-import android.app.Application;
-
 public class NetworkState {
 
     private final Status status;
@@ -21,7 +19,7 @@ public class NetworkState {
         LOADED = new NetworkState(Status.SUCCESS, "succes_msg");
         LOADING = new NetworkState(Status.RUNNING, "running_msg");
         FAIL = new NetworkState(Status.FAILED, "failed_msg");
-        ENDOFLIST = new NetworkState(Status.FAILED, "");
+        ENDOFLIST = new NetworkState(Status.FAILED, "eol_msg");
     }
 
     public Status getStatus() {

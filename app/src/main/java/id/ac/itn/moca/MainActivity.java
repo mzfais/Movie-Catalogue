@@ -1,16 +1,6 @@
 package id.ac.itn.moca;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.preference.PreferenceManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,7 +11,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import id.ac.itn.moca.adapter.MovieAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import id.ac.itn.moca.adapter.NowPlayingAdapter;
 import id.ac.itn.moca.adapter.TvShowAdapter;
 import id.ac.itn.moca.adapter.UpcomingAdapter;
@@ -32,7 +28,6 @@ import id.ac.itn.moca.viewmodel.MovieViewModel;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     RecyclerView rvNowPlaying, rvUpcoming, rvTvShow;
-    MovieAdapter adapter;
     NowPlayingAdapter nowPlayingAdapter;
     UpcomingAdapter upcomingAdapter;
     TvShowAdapter tvShowAdapter;
@@ -43,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     SwipeRefreshLayout swp;
     ImageView ivSetting;
 
-    private static int ERROR_STAT = 0;
     private static final String TAG = "MainActivity";
 
     @Override
@@ -53,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         searchText = findViewById(R.id.et_search);
         swp = findViewById(R.id.swipe);
         swp.setOnRefreshListener(this);
-        ERROR_STAT = 0;
         progressBar = findViewById(R.id.nowPlayingProgress);
         progressBar.setVisibility(View.VISIBLE);
         npMsg = findViewById(R.id.npMsg);
@@ -78,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         rvNowPlaying.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvUpcoming.setLayoutManager(new LinearLayoutManager(this));
         rvTvShow.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         viewModel.getMoviesNowPlaying().observe(this, new Observer<MovieList>() {
             @Override
             public void onChanged(MovieList movieList) {

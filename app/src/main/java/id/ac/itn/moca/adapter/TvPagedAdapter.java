@@ -19,10 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
+import java.util.Objects;
+
 import id.ac.itn.moca.BuildConfig;
 import id.ac.itn.moca.DetailActivity;
 import id.ac.itn.moca.R;
-import id.ac.itn.moca.model.Movie;
 import id.ac.itn.moca.model.NetworkState;
 import id.ac.itn.moca.model.TvShow;
 
@@ -70,6 +71,7 @@ public class TvPagedAdapter extends PagedListAdapter<TvShow, RecyclerView.ViewHo
         if (holder instanceof ItemViewHolder) {
             ItemViewHolder movieViewHolder = (ItemViewHolder) holder;
             TvShow mov = getItem(position);
+            assert mov != null;
             movieViewHolder.bind(mov);
         } else {
             NetworkStateItemViewHolder networkStateItemViewHolder = (NetworkStateItemViewHolder) holder;
@@ -114,7 +116,7 @@ public class TvPagedAdapter extends PagedListAdapter<TvShow, RecyclerView.ViewHo
 
     public void clear() {
         if (getItemCount() > 0) {
-            getCurrentList().clear();
+            Objects.requireNonNull(getCurrentList()).clear();
             notifyDataSetChanged();
         }
     }
@@ -146,6 +148,7 @@ public class TvPagedAdapter extends PagedListAdapter<TvShow, RecyclerView.ViewHo
             if (view.getId() == R.id.ivShare) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
+                assert mov != null;
                 intent.putExtra(Intent.EXTRA_SUBJECT, mov.getOriginalName());
                 intent.putExtra(Intent.EXTRA_TEXT, mov.getOverview());
                 mCtx.startActivity(Intent.createChooser(intent, null));

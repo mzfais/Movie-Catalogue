@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,8 +26,6 @@ import id.ac.itn.moca.viewmodel.FavouriteViewModel;
 
 public class FavouriteFragment extends Fragment {
     private static final String TAG = "FavouriteFragment";
-    private FavouriteViewModel favViewModel;
-    private RecyclerView rvMovie;
     private FavouriteAdapter adapter;
 
     public FavouriteFragment() {
@@ -44,13 +43,14 @@ public class FavouriteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvMovie = view.findViewById(R.id.rvMovieList);
+        RecyclerView rvMovie = view.findViewById(R.id.rvMovieList);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         rvMovie.setLayoutManager(gridLayoutManager);
         adapter = new FavouriteAdapter(getActivity());
         rvMovie.setAdapter(adapter);
-        favViewModel = ViewModelProviders.of(this).get(FavouriteViewModel.class);
-        favViewModel.getAllFavourites().observe(this, new Observer<List<Favourite>>() {
+        //favViewModel = ViewModelProviders.of(this).get(FavouriteViewModel.class);
+        FavouriteViewModel favViewModel = new ViewModelProvider(requireActivity()).get(FavouriteViewModel.class);
+        favViewModel.getAllFavourites().observe(getViewLifecycleOwner(), new Observer<List<Favourite>>() {
             @Override
             public void onChanged(List<Favourite> favourites) {
                 adapter.setFavouriteList(favourites);

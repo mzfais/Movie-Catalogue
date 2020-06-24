@@ -1,26 +1,25 @@
 package id.ac.itn.moca;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.gson.Gson;
+
+import java.util.Objects;
 
 import id.ac.itn.moca.db.FavouriteRepository;
 import id.ac.itn.moca.model.Favourite;
@@ -33,7 +32,6 @@ public class DetailActivity extends AppCompatActivity {
     public static final String MOVIE_ITEMS = "movie_items";
     public static final String TYPE_ITEMS = "movie";
     private boolean isChecked = false;
-    private Menu menu;
     private String type;
 
     Toolbar toolbar;
@@ -59,7 +57,7 @@ public class DetailActivity extends AppCompatActivity {
         imTop = findViewById(R.id.topImage);
         imPoster = findViewById(R.id.imgPoster);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         String data = getIntent().getStringExtra(MOVIE_ITEMS);
         type = getIntent().getStringExtra(TYPE_ITEMS);
         Log.d(TAG, "onCreate: " + type);
@@ -80,7 +78,7 @@ public class DetailActivity extends AppCompatActivity {
                     tvRating.setText(review);
                     tvRelease.setText("Release Date: " + mov.getReleaseDate());
                     tvOverview.setText(mov.getOverview());
-                    FavouriteViewModel viewModel = ViewModelProviders.of(this).get(FavouriteViewModel.class);
+                    FavouriteViewModel viewModel = new ViewModelProvider(this).get(FavouriteViewModel.class);
                     viewModel.getFavItem(mov.getId()).observe(this, new Observer<Favourite>() {
                         @Override
                         public void onChanged(Favourite favourite) {
@@ -134,7 +132,6 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.share_menu, menu);
-        this.menu = menu;
         return true;
     }
 

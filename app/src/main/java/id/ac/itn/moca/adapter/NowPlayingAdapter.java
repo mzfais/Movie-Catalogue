@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +20,6 @@ import id.ac.itn.moca.BuildConfig;
 import id.ac.itn.moca.DetailActivity;
 import id.ac.itn.moca.R;
 import id.ac.itn.moca.model.Movie;
-import id.ac.itn.moca.model.NetworkState;
 
 public class NowPlayingAdapter extends RecyclerView.Adapter<NowPlayingAdapter.MovieViewHolder> {
     private Context mCtx;

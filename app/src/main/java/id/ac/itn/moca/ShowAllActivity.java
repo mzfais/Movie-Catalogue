@@ -1,23 +1,21 @@
 package id.ac.itn.moca;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Build;
 import android.os.Bundle;
-import android.system.Os;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import id.ac.itn.moca.adapter.NowPlayingAdapter;
+import java.util.Objects;
+
 import id.ac.itn.moca.fragment.FavouriteFragment;
 import id.ac.itn.moca.fragment.NowPlayingFragment;
 import id.ac.itn.moca.fragment.TvShowFragment;
@@ -33,7 +31,6 @@ public class ShowAllActivity extends AppCompatActivity {
     private Boolean upfirstLoad = true;
     private Boolean tvfirstLoad = true;
     Toolbar toolbar;
-    final FragmentManager fm = getSupportFragmentManager();
     BottomNavigationView navigation;
 
     @Override
@@ -42,23 +39,30 @@ public class ShowAllActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_all);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getResources().getString(R.string.show_all_activity_title));
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         if (savedInstanceState == null) {
             String page = getIntent().getStringExtra(PAGE);
-            if (page.equals("now")) {
-                //loadFragment(new NowPlayingFragment(), page);
-                updateNavigationBarState(R.id.bottom_nav_now);
-            } else if (page.equals("up")) {
-                //loadFragment(new UpcomingFragment(), page);
-                updateNavigationBarState(R.id.bottom_nav_upcoming);
-            } else if(page.equals("tv")){
-                //loadFragment(new TvShowFragment(), page);
-                updateNavigationBarState(R.id.bottom_nav_tvs);
-            }else{
-                updateNavigationBarState(R.id.bottom_nav_fav);
+            assert page != null;
+            switch (page) {
+                case "now":
+                    //loadFragment(new NowPlayingFragment(), page);
+                    updateNavigationBarState(R.id.bottom_nav_now);
+                    break;
+                case "up":
+                    //loadFragment(new UpcomingFragment(), page);
+                    updateNavigationBarState(R.id.bottom_nav_upcoming);
+                    break;
+                case "tv":
+                    //loadFragment(new TvShowFragment(), page);
+                    updateNavigationBarState(R.id.bottom_nav_tvs);
+                    break;
+                default:
+                    updateNavigationBarState(R.id.bottom_nav_fav);
+                    break;
             }
         } else {
 /*
@@ -66,16 +70,17 @@ public class ShowAllActivity extends AppCompatActivity {
             firstLoad = Boolean.parseBoolean(status);
             Log.d(TAG, "onCreate: now playing firstload: " + status);
 */
-            if (savedInstanceState.getString(APP_STATUS).equals("now")) {
+//            if (savedInstanceState.getString(APP_STATUS).equals("now")) {
+            if (Objects.equals(savedInstanceState.getString(APP_STATUS), "now")) {
                 loadFragment(new NowPlayingFragment(), "now");
                 Log.d(TAG, "onCreate: meeting aktif");
-            } else if (savedInstanceState.getString(APP_STATUS).equals("up")) {
+            } else if (Objects.equals(savedInstanceState.getString(APP_STATUS), "up")) {
                 loadFragment(new UpcomingFragment(), "up");
                 Log.d(TAG, "onCreate: upcoming aktif");
-            } else if (savedInstanceState.getString(APP_STATUS).equals("tv")){
+            } else if (Objects.equals(savedInstanceState.getString(APP_STATUS), "tv")) {
                 loadFragment(new TvShowFragment(), "tv");
                 Log.d(TAG, "onCreate: tvshow aktif");
-            }else{
+            } else {
                 loadFragment(new FavouriteFragment(), "fav");
                 Log.d(TAG, "onCreate: favorit aktif");
             }
@@ -115,7 +120,7 @@ public class ShowAllActivity extends AppCompatActivity {
                             break;
                         case R.id.bottom_nav_fav:
                             fragment = new FavouriteFragment();
-                            tag="fav";
+                            tag = "fav";
                             break;
 
                     }

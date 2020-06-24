@@ -1,7 +1,5 @@
 package id.ac.itn.moca.api;
 
-import androidx.annotation.Nullable;
-
 import id.ac.itn.moca.model.MovieList;
 import id.ac.itn.moca.model.TvShowList;
 import retrofit2.Call;

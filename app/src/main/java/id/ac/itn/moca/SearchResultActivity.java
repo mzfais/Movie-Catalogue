@@ -1,13 +1,5 @@
 package id.ac.itn.moca;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.paging.PagedList;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
@@ -16,13 +8,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.PagedList;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import id.ac.itn.moca.adapter.MoviePagedAdapter;
+import java.util.Objects;
+
 import id.ac.itn.moca.adapter.SearchResultAdapter;
 import id.ac.itn.moca.model.Movie;
 import id.ac.itn.moca.model.NetworkState;
@@ -31,8 +29,6 @@ import id.ac.itn.moca.viewmodel.SearchViewModelFactory;
 
 public class SearchResultActivity extends AppCompatActivity {
     private static final String TAG = "SearchResultActivity";
-    private Toolbar toolbar;
-    private RecyclerView rvMovie;
     SearchResultAdapter adapter;
     SearchMovieViewModel viewModel;
     //private EditText searchText;
@@ -41,10 +37,10 @@ public class SearchResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        rvMovie = findViewById(R.id.rvMovieList);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        RecyclerView rvMovie = findViewById(R.id.rvMovieList);
         rvMovie.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SearchResultAdapter(this);
         //searchText = findViewById(R.id.et_search);
@@ -52,7 +48,7 @@ public class SearchResultActivity extends AppCompatActivity {
         if (keyword == null) {
             keyword = "";
         }
-        viewModel = ViewModelProviders.of(this, new SearchViewModelFactory(keyword)).get(SearchMovieViewModel.class);
+        viewModel = new ViewModelProvider(this, new SearchViewModelFactory(keyword)).get(SearchMovieViewModel.class);
         initViewModel();
         rvMovie.setAdapter(adapter);
     }
@@ -116,8 +112,9 @@ public class SearchResultActivity extends AppCompatActivity {
             InputMethodManager inputMethodManager =
                     (InputMethodManager) this.getSystemService(
                             Activity.INPUT_METHOD_SERVICE);
+            assert inputMethodManager != null;
             inputMethodManager.hideSoftInputFromWindow(
-                    this.getCurrentFocus().getWindowToken(), 0);
+                    Objects.requireNonNull(this.getCurrentFocus()).getWindowToken(), 0);
         } catch (Exception ex) {
             Log.d(TAG, "hideKeyboard: " + ex.getMessage());
         }
