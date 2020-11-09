@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         rvNowPlaying.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvUpcoming.setLayoutManager(new LinearLayoutManager(this));
         rvTvShow.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        //viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         viewModel.getMoviesNowPlaying().observe(this, new Observer<MovieList>() {
             @Override
